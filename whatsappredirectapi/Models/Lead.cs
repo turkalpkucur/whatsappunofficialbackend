@@ -18,9 +18,9 @@ namespace whatsappredirectapi.Models
         public string last_name { get; set; }
 
         public int gender { get; set; }
-        public DateTime dob { get; set; }
+        public DateTime? dob { get; set; }
 
-        public int country_phone_code { get; set; }
+        public int? country_phone_code { get; set; }
         public string phone_number { get; set; }
         public string email { get; set; }
 

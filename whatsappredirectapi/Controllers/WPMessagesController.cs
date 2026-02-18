@@ -104,13 +104,10 @@ type="text"
 
 
         [HttpPost("WebhookSendMessageUnofficial")]
-        public async Task<IActionResult> WebhookSendMessageUnofficial([FromQuery] string message)
+        public async Task<IActionResult> WebhookSendMessageUnofficial([FromQuery] string firstName, [FromQuery] string lastName, [FromQuery] string phoneNumber, [FromQuery] string message)
         {
 
-            Channel whatsappChannel = await _context.Channels.Where(g => g.company_id == 1 && g.channel_enum == Enums.Enums.ChannelEnums.WhatsApp && g.gs_app_id==null).FirstOrDefaultAsync();
-
-        
-
+            Channel whatsappChannel = await _context.Channels.Where(g => g.company_id == 1 && g.channel_enum == Enums.Enums.ChannelEnums.WhatsApp && g.gs_app_id == null).FirstOrDefaultAsync();
 
             Guid cxConversationId = Guid.NewGuid();
 
@@ -121,13 +118,13 @@ type="text"
                 lead_no = await GetLeadNo(1),
                 lead_status_id = 1,
                 lead_reference_id = 13,
-                first_name = "HAYDAR",
-                last_name = "NAMLI",
+                first_name = firstName,
+                last_name = lastName,
                 gender = 1,
-                dob = new DateTime(1980, 1, 5),
-                country_phone_code = 218,
-                phone_number = "905054270123",
-                email = "turkalp.kucur@gmail.com",
+                dob = null,
+                country_phone_code = null,
+                phone_number = phoneNumber,
+                email = "",
                 is_completed = false,
                 is_active = true,
                 created_at = DateTime.UtcNow,
@@ -183,13 +180,13 @@ type="text"
             LeadLatestMessage leadLatestMessage = new LeadLatestMessage()
             {
                 latest_message = message,
-                latest_message_channel_id= whatsappChannel.channel_id,
-                latest_message_owner=Enums.Enums.LatestMessageOwnerEnums.Lead,
-                latest_message_sent_at=DateTime.UtcNow,
-                latest_respons_at=null,
-                lead_id=lead.lead_id,
-                reminder_at=null,
-                unread_message_count=0
+                latest_message_channel_id = whatsappChannel.channel_id,
+                latest_message_owner = Enums.Enums.LatestMessageOwnerEnums.Lead,
+                latest_message_sent_at = DateTime.UtcNow,
+                latest_respons_at = null,
+                lead_id = lead.lead_id,
+                reminder_at = null,
+                unread_message_count = 0
             };
 
             await _context.LeadLatestMessages.AddAsync(leadLatestMessage);
